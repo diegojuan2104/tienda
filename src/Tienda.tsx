@@ -15,7 +15,7 @@ function TiendaComponent() {
 
   return (
     <div className="App">
-      <h1>TIENDA</h1>
+      <h1>TIENDA DE FRUTAS </h1>
       <div
         style={{
           display: 'flex',
@@ -38,9 +38,7 @@ function TiendaComponent() {
                 />
                 <Card.Body>
                   <Card.Title>{`${producto.sku} - ${producto.nombre}`}</Card.Title>
-                  <Card.Text>
-                    U. Disponibles: {producto.unidades_disponibles}
-                  </Card.Text>
+                  <Card.Text></Card.Text>
 
                   <Card.Text>Precio: $ {producto.precio}</Card.Text>
                   <Button
@@ -62,16 +60,56 @@ function TiendaComponent() {
         })}
       </div>
 
-      <h1>CARRITO</h1>
-      {items?.map((item) => {
-        return (
-          <div key={item.producto.sku}>{`${item.producto.sku} - ${
-            item.producto.nombre
-          } - ${item.cantidad} - Subtotal: ${item.calcularSubTotal()}`}</div>
-        );
-      })}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          marginTop: '100px',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+          }}
+        >
+          <h1
+            style={{
+              marginTop: '100px',
+            }}
+          >
+            CARRITO
+          </h1>
 
-      <h2>Total: $ {tienda?.usuario.carrito.calcularTotal()}</h2>
+          {items?.map((item) => {
+            return (
+              <div key={item.producto.sku}>{`${item.producto.sku} - ${
+                item.producto.nombre
+              } - ${
+                item.cantidad
+              } - Subtotal: ${item.calcularSubTotal()}`}</div>
+            );
+          })}
+
+          <h2
+            style={{
+              marginTop: '100px',
+            }}
+          >
+            Total: $ {tienda?.usuario.carrito.calcularTotal()}
+          </h2>
+
+          <Button
+            onClick={() => {
+              window.location.reload();
+            }}
+            variant="primary"
+          >
+            Limpiar carrito
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
