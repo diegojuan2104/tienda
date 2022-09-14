@@ -1,23 +1,17 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { PRODUCTOS } from './assets/db.js';
-import Carrito from './Carrito';
-import Producto from './domain/Producto';
+import Item from './domain/Item.js';
 import Tienda from './domain/Tienda';
-import ProductoComponent from './Producto'
+import { Button } from 'react-bootstrap';
+import Card from 'react-bootstrap/Card';
 
 function TiendaComponent() {
+  const [tienda, setTienda] = useState<Tienda>();
+  const [items, setItems] = useState<Array<Item>>([]);
 
-  const [tienda, setTienda] = useState<Tienda>(
-    new Tienda()
-  )
-  // const [productos, setProductos] = useState <Array<Producto>>();
-
-  const [items, setItems] = useState([]);
-
-
-
-
+  useEffect(() => {
+    setTienda(new Tienda());
+  }, []);
 
   return (
     <div className="App">
@@ -28,7 +22,7 @@ function TiendaComponent() {
           justifyContent: 'space-evenly',
         }}
       >
-        {tienda.productos.map((producto) => {
+        {tienda?.productos.map((producto) => {
           return (
             <li
               style={{
@@ -36,16 +30,48 @@ function TiendaComponent() {
               }}
               key={producto.sku}
             >
-              <ProductoComponent
-                agregar_producto_a_carrito={tienda.agrega_producto_a_carrito}
-                productoData={producto}
-              />
+              <Card style={{ width: '18rem' }}>
+                <Card.Img
+                  style={{ width: '100%', height: '300px' }}
+                  variant="top"
+                  src={producto.img}
+                />
+                <Card.Body>
+                  <Card.Title>{`${producto.sku} - ${producto.nombre}`}</Card.Title>
+                  <Card.Text>
+                    U. Disponibles: {producto.unidades_disponibles}
+                  </Card.Text>
+
+                  <Card.Text>Precio: $ {producto.precio}</Card.Text>
+                  <Button
+                    onClick={() => {
+                      //tienda?.usuario.carrito.agregar_item(producto,1)
+                      setItems(
+                        tienda?.agrega_producto_a_carrito(producto.sku, 1)
+                      );
+                      console.log(tienda?.usuario.carrito.itemsList);
+                    }}
+                    variant="primary"
+                  >
+                    Agregar al Carrito
+                  </Button>
+                </Card.Body>
+              </Card>
             </li>
           );
         })}
       </div>
 
-      <Carrito items={tienda.usuario.carrito} />
+      <h1>CARRITO</h1>
+      {items?.map((item) => {
+        return (
+          <div key={item.producto.sku}>{`${item.producto.sku} - ${
+            item.producto.nombre
+          } - ${item.cantidad} - Subtotal: ${item.calcularSubTotal()}`}</div>
+        );
+      })}
+
+      <h2>Total: $ {tienda?.usuario.carrito.calcularTotal()}</h2>
     </div>
   );
 }

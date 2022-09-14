@@ -15,7 +15,7 @@ class Usuario {
     }
 
     agrega_producto_a_carrito(producto: Producto, cantidad:number) {
-        this.carrito.agregar_item(producto,cantidad)
+       return this.carrito.agregar_item(producto,cantidad)
     }
 }
 

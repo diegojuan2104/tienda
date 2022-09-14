@@ -20,6 +20,12 @@ class Carrito{
             new Item(producto, cantidad)
         )
         }
+
+        return this.itemsList;
+    }
+
+    calcularTotal(){
+        return this.itemsList.reduce((acum, item) => acum + item.calcularSubTotal(),0)
     }
 }
 

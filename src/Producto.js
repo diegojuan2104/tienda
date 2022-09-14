@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 
-function Producto({ productoData, agregar_producto_a_carrito }) {
+function Producto({ productoData, agregar_item }) {
   return (
     <div className="App">
       <Card style={{ width: '18rem' }}>
@@ -20,7 +20,7 @@ function Producto({ productoData, agregar_producto_a_carrito }) {
           <Card.Text>Precio: $ {productoData.precio}</Card.Text>
           <Button
             onClick={() => {
-              agregar_producto_a_carrito(productoData.sku, 1);
+              agregar_item(productoData, 1);
             }}
             variant="primary"
           >
